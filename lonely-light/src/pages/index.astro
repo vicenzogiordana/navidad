@@ -1,0 +1,134 @@
+---
+const FRASE_CORRECTA = "feliz navidad Pri! Te amo";
+const LINK_CURSO = "https://www.domestika.org/es/my_courses?exp_set=1";
+---
+
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Un regalo para vos 🎁</title>
+
+    <style>
+      body {
+        font-family: Georgia, serif;
+        background: linear-gradient(135deg, #f6f1eb, #f0e4d7);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
+
+      .card {
+        background: white;
+        padding: 40px;
+        max-width: 420px;
+        width: 90%;
+        text-align: center;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+      }
+
+      h1 {
+        font-size: 1.8em;
+        margin-bottom: 10px;
+      }
+
+      p {
+        font-size: 1.05em;
+        color: #444;
+        margin-bottom: 25px;
+      }
+
+      input {
+        width: 100%;
+        padding: 12px;
+        font-size: 1em;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        margin-bottom: 15px;
+        text-align: center;
+      }
+
+      button {
+        background-color: #c47a6d;
+        color: white;
+        border: none;
+        padding: 12px 20px;
+        font-size: 1em;
+        border-radius: 6px;
+        cursor: pointer;
+        width: 100%;
+      }
+
+      button:hover {
+        background-color: #b3685c;
+      }
+
+      .error {
+        color: #b00020;
+        margin-top: 15px;
+        display: none;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="card">
+      <h1>🎄 Un pequeño misterio</h1>
+      <p>
+        Escribí la frase correcta<br />
+        para abrir tu regalo.
+      </p>
+
+      <input
+        type="text"
+        id="clave"
+        placeholder="Escribí la frase..."
+      />
+
+      <button id="btn">
+        Abrir 🎁
+      </button>
+
+      <div class="error" id="error">
+        Esa no es la frase… probá otra vez 💫
+      </div>
+    </div>
+
+    <script define:vars={{ FRASE_CORRECTA, LINK_CURSO }}>
+		const input = document.getElementById("clave");
+		const error = document.getElementById("error");
+		const btn = document.getElementById("btn");
+	  
+		function normalizar(texto) {
+		  return texto
+			.trim()
+			.toLowerCase()
+			.normalize("NFD")
+			.replace(/[\u0300-\u036f]/g, "")
+			.replace(/\s+/g, " ");
+		}
+	  
+		btn.addEventListener("click", () => {
+		  const valor = normalizar(input.value);
+		  const correcta = normalizar(FRASE_CORRECTA);
+	  
+		  if (valor === correcta) {
+			window.location.href = LINK_CURSO;
+		  } else {
+			error.style.display = "block";
+		  }
+		});
+	  
+		input.addEventListener("keydown", (e) => {
+		  if (e.key === "Enter") {
+			btn.click();
+		  }
+		});
+	  </script>
+	  
+  </body>
+</html>
